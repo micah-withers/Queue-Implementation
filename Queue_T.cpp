@@ -52,12 +52,12 @@ Queue<T>::~Queue (void)
 //  passed in (i.e., same values, order, and number of elements).
 template <class T>
 Queue<T> &
-Queue<T>::operator= (const Queue<T> &rhs) 
+Queue<T>::operator= (const Queue<T> &rhs)
 {
 	if (this == &rhs) {						//	Checks for self-assignment.
 		return *this;
 	}
-	if (this->size( ) < rhs.size( )) {		//	Resizes array if necessary.
+	if (this->capacity_ != rhs.capacity_) {		//	Resizes array if necessary.
 		delete [] data_;
 		this->data_ = new T[rhs.size( )];
 		this->capacity_ = rhs.capacity_;
@@ -75,34 +75,28 @@ void
 Queue<T>::enqueue (const T &new_item)
 {
 	if (size( ) == capacity_) {					//	Resizes array if it is at capacity.
-		T *new_data = new T[capacity_+1];
-		size_t copy_index = first_;
-		size_t many_items = 0;
-		while (many_items < size( )) {
-			new_data[many_items] = data_[copy_index];	//	Copies values (first_ to last_) to a new array.
-			copy_index = next_index(copy_index);
-			if (copy_index == capacity_) {
-				copy_index = 0;
+		capacity_ += 1;
+		T *new_data = new T[capacity_];
+		size_t start = first_;
+		for (size_t i = 0; i < size( ); ++i) {	//	Copies values (first_ to last_) to a new array.
+			new_data[i] = data_[start];
+			if (start < size( )-1) {
+				start = next_index(start);
 			}
-			++many_items;
 		}
-		delete [] data_;		//	Has data_ point to new array and sets first_ and last_
-		data_ = new_data;		//		(after releasing the memory of the original array).
+		delete [] data_;
+		data_ = new_data;		//	Has data_ point to new array and sets first_ and last_ (after releasing the memory of the original array).
 		first_ = 0;
-		last_ = capacity_-1;
-		++capacity_;
+		last_ = start;
 	}
 	last_ = next_index(last_);	//	Increments last_, inserts the value at last_ index, then increments count.
-	if (last_ == capacity_) {
-		last_ = 0;
-	}
 	data_[last_] = new_item;
 	++count_;
 }
 
 // Precondition: size() > 0.
-// Postcondition: The front item on the queue has been removed.  
-//   Throws the <Underflow> exception if the queue is empty. 
+// Postcondition: The front item on the queue has been removed.
+//   Throws the <Underflow> exception if the queue is empty.
 template <class T>
 void
 Queue<T>::dequeue (void)
@@ -111,17 +105,14 @@ Queue<T>::dequeue (void)
 		throw Underflow( );
 	}
 	first_ = next_index(first_);	//	Increments first_, then decrements count_.
-	if (first_ == capacity_) {
-		first_ = 0;
-	}
 	--count_;
 }
 
 // Precondition: size() > 0.
 // Postcondition: Returns the first queue item.
-//   Throws the <Underflow> exception if the queue is empty. 
+//   Throws the <Underflow> exception if the queue is empty.
 template <class T>
-T 
+T
 Queue<T>::first (void) const
 {
 	if (is_empty( )) {
@@ -130,10 +121,10 @@ Queue<T>::first (void) const
 	return data_[first_];
 }
 
-// Postcondition: Returns true if the queue is empty, false otherwise. 
+// Postcondition: Returns true if the queue is empty, false otherwise.
 template <class T>
 bool
-Queue<T>::is_empty (void) const 
+Queue<T>::is_empty (void) const
 {
 	if (size( ) == 0) {
 		return true;
@@ -143,7 +134,7 @@ Queue<T>::is_empty (void) const
 
 // Postcondition: Returns the current number of elements in the queue.
 template <class T>
-size_t 
+size_t
 Queue<T>::size (void) const
 {
 	return count_;
@@ -153,7 +144,7 @@ Queue<T>::size (void) const
 //   size()'s of the two queues are equal and all the elements from 0
 //   .. size()-1 are equal, else false.
 template <class T>
-bool 
+bool
 Queue<T>::operator== (const Queue<T> &rhs) const
 {
 	if (this->size( ) != rhs.size( )) {			//	Checks that sizes are equal (returns false if not equal).
@@ -175,7 +166,7 @@ Queue<T>::operator== (const Queue<T> &rhs) const
 //   size()'s of the two queues are equal and all the elements from 0
 //   .. size()-1 are equal, else true.
 template <class T>
-bool 
+bool
 Queue<T>::operator!= (const Queue<T> &rhs) const
 {
 	return !(*this == rhs);
@@ -188,7 +179,7 @@ template <class T>
 size_t
 Queue<T>::next_index (size_t index) const
 {
-	return ++index;
+	return (++index) % capacity_;
   // You should just need one line of code.
 }
 
