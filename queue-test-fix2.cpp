@@ -38,7 +38,7 @@ bool check_accuracy (const CQUEUE& queue, value_type elements[], size_t size) {	
 	try {
 		while (i < size) {
 			if (copy_queue.first( ) != elements[i]) {		//	Prints values if they are unequal and returns false, or removes them if they are equal
-				std::cout << "Element read (" << copy_queue.first( ) << "), should be ("
+				std::cout << "Element read (" << copy_queue.first( ) << "), at index (" << i << "), should be ("
 					<< elements[i] << ")." << std::endl;
 				return false;
 			}
@@ -85,7 +85,7 @@ void basic_tests(int progress[], size_t elem_size, value_type elements[]) {
 	pass_fail(pass, progress[0]+progress[1], progress);	//	Records and prints results of the test
 	std::cout << std::endl << std::endl;
 
-	// Test 2: 	fills the queue, dequeues all values, then fills the queue again and checks for accuracy.
+  // Test 2: 	fills the queue, dequeues all values, then fills the queue again and checks for accuracy.
 	pass = true;
 	std::cout << "Test 2: fills the queue, dequeues all values, then fills the queue again and checks for accuracy . . ." << std::endl;
 	CQUEUE test2;
@@ -115,7 +115,7 @@ void basic_tests(int progress[], size_t elem_size, value_type elements[]) {
   	pass = true;
 	std::cout << "Test 3: dequeueing first 2 elements . . ." << std::endl;
 	CQUEUE test3;
-	enqueue_elements(test3, elements, elem_size);		//	Pushes item onto the queue
+	enqueue_elements(test3, elements, elem_size);		//	Enqueues item onto the queue
 
 	for (size_t i = 0; i < elem_size-1; ++i) {		//	All but one item are checked for accuracy then dequeueed
 		if (test3.first( ) != elements[i]) {
