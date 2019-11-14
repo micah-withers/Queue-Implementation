@@ -17,6 +17,7 @@
 //	This typedef is useful if you want to queue characters.
 typedef double value_type;
 typedef Queue<value_type> CQUEUE;
+size_t DEFAULT_CAPACITY = 10;
 
 //Postcondition: values from elements[] are added to the queue (from elements[0] to elements[size]).
 void enqueue_elements (CQUEUE& queue, value_type elements[], size_t size) {	//	Inputs values from elements[] into the queue
@@ -125,44 +126,96 @@ void basic_tests(int progress[], size_t elem_size, value_type elements[]) {
 	CQUEUE test4;
 						//	Elements are enqueueed and dequeueed to and from the queue and
 						//		periodically checked for accuracy.
-	test4.enqueue(10);
-	test4.enqueue(20);
-	if (test4.first( ) != 10) {
+	value_type first = 10;	//	Will contain what should be the first value in the queue
+	value_type next = 1;		//	Contains the next value to be added to the queue
+	size_t count = 0;				//	Tracks the number of items expected to be in the queue
+	while (count < DEFAULT_CAPACITY/2) {
+		test4.enqueue(next*10);							//	Enqueues values
+		++count;
+		++next;
+	}
+	if (test4.first( ) != first) {			//	Checks first item for accuracy
 		std::cout << "Element read (" << test4.first( ) << "), should be ("
-				<< 10 << ")." << std::endl;
+				<< first << ")." << std::endl;
 		pass = false;
 	}
-	test4.dequeue( );
-	if (test4.first( ) != 20) {
-		std::cout << "Element read (" << test4.first( ) << "), should be ("
-				<< 20 << ")." << std::endl;
+	if (test4.size( ) != count) {				//	Checks number of items for accuracy
+		std::cout << "Number of elements (" << test4.size( ) << "), should be ("
+				<< count << ")." << std::endl;
 		pass = false;
 	}
-	test4.enqueue(30);
-	test4.enqueue(40);
-	test4.enqueue(50);
-	if (test4.first( ) != 20) {
+
+	while (count > (DEFAULT_CAPACITY/2)/2) {		//	Dequeues items
+		test4.dequeue( );
+		--count;
+		first += 10;
+	}
+	if (test4.first( ) != first) {
 		std::cout << "Element read (" << test4.first( ) << "), should be ("
-				<< 20 << ")." << std::endl;
+				<< first << ")." << std::endl;
 		pass = false;
 	}
-	test4.dequeue( );
-	test4.dequeue( );
-	if (test4.first( ) != 40) {
-		std::cout << "Element read (" << test4.first( ) << "), should be ("
-				<< 40 << ")." << std::endl;
+	if (test4.size( ) != count) {
+		std::cout << "Number of elements (" << test4.size( ) << "), should be ("
+				<< count << ")." << std::endl;
 		pass = false;
 	}
-	test4.enqueue(60);
-	test4.enqueue(70);
-	test4.dequeue( );
-	test4.dequeue( );
-	test4.dequeue( );
-	if (test4.first( ) != 70) {
+
+	while (count < DEFAULT_CAPACITY) {
+		test4.enqueue(next*10);
+		++count;
+		++next;
+	}
+	if (test4.first( ) != first) {
 		std::cout << "Element read (" << test4.first( ) << "), should be ("
-				<< 70 << ")." << std::endl;
+				<< first << ")." << std::endl;
 		pass = false;
 	}
+	if (test4.size( ) != count) {
+		std::cout << "Number of elements (" << test4.size( ) << "), should be ("
+				<< count << ")." << std::endl;
+		pass = false;
+	}
+
+	while (count > (DEFAULT_CAPACITY/2)) {
+		test4.dequeue( );
+		--count;
+		first += 10;
+	}
+	if (test4.first( ) != first) {
+		std::cout << "Element read (" << test4.first( ) << "), should be ("
+				<< first << ")." << std::endl;
+		pass = false;
+	}
+	if (test4.size( ) != count) {
+		std::cout << "Number of elements (" << test4.size( ) << "), should be ("
+				<< count << ")." << std::endl;
+		pass = false;
+	}
+
+	while (count < DEFAULT_CAPACITY) {
+		test4.enqueue(next*10);
+		++count;
+		++next;
+	}
+	if (test4.first( ) != first) {
+		std::cout << "Element read (" << test4.first( ) << "), should be ("
+				<< first << ")." << std::endl;
+		pass = false;
+	}
+	if (test4.size( ) != count) {
+		std::cout << "Number of elements (" << test4.size( ) << "), should be ("
+				<< count << ")." << std::endl;
+		pass = false;
+	}
+
+	value_type elements4[count];
+	for (size_t i = 0; i < count; ++i) {		//	Adds elements to an array that are expected to be in the queue
+		elements4[i] = first;
+		first += 10;
+	}
+	pass = check_accuracy(test4, elements4, count);
+
 
 	pass_fail(pass, progress[0]+progress[1], progress);
 	std::cout << std::endl << std::endl;
@@ -483,7 +536,7 @@ void resize_tests(int progress[], size_t elem_size, value_type elements[]) {
 int
 main (int argc, char *argv[])
 {
-	int progress[] = {0, 0}; // [0] passes index, [1] fails index
+	int progress[] = {0, 0}; // [0] passes index, [1] fails count
 	size_t elem_size = 7;
 	value_type elements[elem_size];
 	for ( size_t i = 1; i <= elem_size; ++i) {
