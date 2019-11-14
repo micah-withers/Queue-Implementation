@@ -85,29 +85,15 @@ void basic_tests(int progress[], size_t elem_size, value_type elements[]) {
 	pass_fail(pass, progress[0]+progress[1], progress);	//	Records and prints results of the test
 	std::cout << std::endl << std::endl;
 
-	// Test 2: 	fills the queue, dequeues all values, then fills the queue again and checks for accuracy.
+  // Test 2: 	enqueueing 10, 20, 30 into an empty queue.
 	pass = true;
-	std::cout << "Test 2: fills the queue, dequeues all values, then fills the queue again and checks for accuracy . . ." << std::endl;
+	std::cout << "Test 2: enqueueing 10, 20, 30 into an empty queue . . ." << std::endl;
 	CQUEUE test2;
-	size_t size2 = 10;		//	10 is default capacity
-	value_type elements2[size2];
 
-	for (size_t i = 0; i < size2; ++i) {	//	Fills an array with values to be enqueued.
-		elements2[i] = (i+1)*10;
-	}
-	enqueue_elements(test2, elements2, size2);		//	Enqueues values onto the queue, then checks the queue for accuracy.
-	if (!check_accuracy(test2, elements2, size2)) {
+	enqueue_elements(test2, elements, elem_size);			//	Pushes values onto the queue, then checks the queue for accuracy
+	if (!check_accuracy(test2, elements, elem_size)) {
 		pass = false;
 	}
-	while (!test2.is_empty( )) {	//	Dequeues all values.
-		test2.dequeue( );
-	}
-
-	enqueue_elements(test2, elements2, size2);		//	Enqueues values onto the queue, then checks the queue for accuracy.
-	if (!check_accuracy(test2, elements2, size2)) {
-		pass = false;
-	}
-
 	pass_fail(pass, progress[0]+progress[1], progress);
 	std::cout << std::endl << std::endl;
 
