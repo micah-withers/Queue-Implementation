@@ -24,9 +24,8 @@
 // Postcondition: The queue has been initialized as an empty queue.
 template <class T>
 Queue<T>::Queue ()
-  :	capacity_(10), first_(0), last_(capacity_-1), count_(0)
+  :	data_(new T[DEFAULT_CAPACITY]), capacity_(DEFAULT_CAPACITY), first_(0), last_(capacity_-1), count_(0)
 {
-	data_ = new T[capacity_];
 }
 
 // Copy constructor.
@@ -75,19 +74,17 @@ void
 Queue<T>::enqueue (const T &new_item)
 {
 	if (size( ) == capacity_) {					//	Resizes array if it is at capacity.
-		capacity_ += 1;
-		T *new_data = new T[capacity_];
+		T *new_data = new T[capacity_+1];
 		size_t start = first_;
 		for (size_t i = 0; i < size( ); ++i) {	//	Copies values (first_ to last_) to a new array.
 			new_data[i] = data_[start];
-			if (start < size( )-1) {
-				start = next_index(start);
-			}
+			start = next_index(start);
 		}
 		delete [] data_;
 		data_ = new_data;		//	Has data_ point to new array and sets first_ and last_ (after releasing the memory of the original array).
-		first_ = 0;
-		last_ = start;
+    ++capacity_;
+    first_ = 0;
+		last_ = size( )-1;
 	}
 	last_ = next_index(last_);	//	Increments last_, inserts the value at last_ index, then increments count.
 	data_[last_] = new_item;
