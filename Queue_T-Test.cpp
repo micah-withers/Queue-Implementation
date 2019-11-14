@@ -14,7 +14,7 @@
 #include <iostream>
 #include "Queue_T.h"
 
-//	This typedef is useful if you want to queue characters.
+//	This typedef is useful if you want to queue doubles.
 typedef double value_type;
 typedef Queue<value_type> CQUEUE;
 size_t DEFAULT_CAPACITY = 10;
@@ -161,7 +161,7 @@ void basic_tests(int progress[], size_t elem_size, value_type elements[]) {
 		pass = false;
 	}
 
-	while (count < DEFAULT_CAPACITY) {
+	while (count < DEFAULT_CAPACITY) {		//	Enqueues items
 		test4.enqueue(next*10);
 		++count;
 		++next;
@@ -177,7 +177,7 @@ void basic_tests(int progress[], size_t elem_size, value_type elements[]) {
 		pass = false;
 	}
 
-	while (count > (DEFAULT_CAPACITY/2)) {
+	while (count > (DEFAULT_CAPACITY/2)) {	//	Dequeues items
 		test4.dequeue( );
 		--count;
 		first += 10;
@@ -193,7 +193,7 @@ void basic_tests(int progress[], size_t elem_size, value_type elements[]) {
 		pass = false;
 	}
 
-	while (count < DEFAULT_CAPACITY) {
+	while (count < DEFAULT_CAPACITY) {		//	Enqueues items
 		test4.enqueue(next*10);
 		++count;
 		++next;
