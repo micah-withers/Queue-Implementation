@@ -56,8 +56,8 @@ Queue<T>::operator= (const Queue<T> &rhs)
 	if (this == &rhs) {						//	Checks for self-assignment.
 		return *this;
 	}
-  if (this->capacity_ < rhs.capacity_) {					//	Resizes array if its capacity is less than that of rhs.
-    T *new_data = new T[rhs.capacity_];
+  if (this->capacity_ < rhs.size( )) {					//	Resizes array if its capacity is less than that of rhs.
+    T *new_data = new T[rhs.size( )];
     delete [] data_;      //	Has data_ point to new array after releasing the memory of the original array.
     data_ = new_data;
     capacity_ = rhs.capacity_;
