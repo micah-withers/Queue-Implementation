@@ -29,12 +29,15 @@
  *        using a circular array. The array will need to be resized if all the
  *        array slots are full.
  *****************************************************************************/
-template <class T> 
+template <class T>
 class Queue
 {
 public:
   // Define a "trait"
   typedef T element_type;
+
+  // Initial capacity
+  size_t DEFAULT_CAPACITY = 10;
 
   // = Exceptions thrown by methods in this class.
   class Underflow {};
@@ -63,17 +66,17 @@ public:
   void enqueue (const T &new_item);
 
   // Precondition: size() > 0.
-  // Postcondition: The front item on the queue has been removed.  
-  //   Throws the <Underflow> exception if the queue is empty. 
+  // Postcondition: The front item on the queue has been removed.
+  //   Throws the <Underflow> exception if the queue is empty.
   void dequeue (void);
 
   // Precondition: size() > 0.
   // Postcondition: Returns the first queue item.
-  //   Throws the <Underflow> exception if the queue is empty. 
+  //   Throws the <Underflow> exception if the queue is empty.
   T first (void) const;
 
-  // = Check boundary conditions for Queue operations. 
-  // Postcondition: Returns true if the queue is empty, false otherwise. 
+  // = Check boundary conditions for Queue operations.
+  // Postcondition: Returns true if the queue is empty, false otherwise.
   bool is_empty (void) const;
 
   // Postcondition: Returns the current number of elements in the queue.
