@@ -182,7 +182,6 @@ size_t
 Queue<T>::next_index (size_t index) const
 {
 	return (++index) % capacity_;
-  // You should just need one line of code.
 }
 
 #endif /* QUEUE_T_CPP */
