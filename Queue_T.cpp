@@ -56,15 +56,20 @@ Queue<T>::operator= (const Queue<T> &rhs)
 	if (this == &rhs) {						//	Checks for self-assignment.
 		return *this;
 	}
-	if (this->capacity_ != rhs.capacity_) {		//	Resizes array if necessary.
-		delete [] data_;
-		this->data_ = new T[rhs.size( )];
-		this->capacity_ = rhs.capacity_;
-	}
-	std::copy(rhs.data_, rhs.data_ + rhs.size( ), data_);	//	Copies values from rhs and sets data member values.
-	this->first_ = rhs.first_;
-	this->last_ =  rhs.last_;
-	this->count_ = rhs.count_;
+  if (this->capacity_ < rhs.size( )) {				//	Resizes array if its capacity is less than that of rhs.
+    T *new_data = new T[rhs.size( )];
+    delete [] data_;      //	Has data_ point to new array after releasing the memory of the original array.
+    data_ = new_data;
+    capacity_ = rhs.capacity_;
+  }
+  size_t start = rhs.first_;
+  for (size_t i = 0; i < rhs.size( ); ++i) {	//	Copies values from rhs (first_ to last_) to a data_, starting at index 0.
+    data_[i] = rhs.data_[start];
+    start = rhs.next_index(start);
+  }
+  first_ = 0;
+  last_ = rhs.size( )-1;
+  this->count_ = rhs.count_;
 	return *this;
 }
 
