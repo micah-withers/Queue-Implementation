@@ -102,11 +102,8 @@ template <class T>
 void
 Queue<T>::dequeue (void)
 {
-	if (is_empty( )) {
-		throw Underflow( );
-	}
+	count_ == 0 ? throw Underflow( ) : --count_;
 	first_ = next_index(first_);	//	Increments first_, then decrements count_.
-	--count_;
 }
 
 // Precondition: size() > 0.
@@ -116,7 +113,7 @@ template <class T>
 T
 Queue<T>::first (void) const
 {
-	return is_empty( ) ? throw Underflow( ) : data_[first_];
+	return count_ == 0 ? throw Underflow( ) : data_[first_];
 }
 
 // Postcondition: Returns true if the queue is empty, false otherwise.
@@ -124,7 +121,7 @@ template <class T>
 bool
 Queue<T>::is_empty (void) const
 {
-	return count_ == 0 ? true : false;
+	return count_ == 0;
 }
 
 // Postcondition: Returns the current number of elements in the queue.
