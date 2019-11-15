@@ -116,10 +116,7 @@ template <class T>
 T
 Queue<T>::first (void) const
 {
-	if (is_empty( )) {
-		throw Underflow( );
-	}
-	return data_[first_];
+	return is_empty( ) ? throw Underflow( ) : data_[first_];
 }
 
 // Postcondition: Returns true if the queue is empty, false otherwise.
