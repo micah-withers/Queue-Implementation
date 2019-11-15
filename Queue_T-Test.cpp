@@ -499,7 +499,7 @@ void resize_tests(int progress[], size_t elem_size, value_type elements[]) {
 
 // Test 19: 	test resizing by adding 30 values (10 is the default capacity).
 	bool pass = true;
-	std::cout << "Test 19: test resizing by adding 30 values (10 is the default capacity) . . ." << std::endl;
+	std::cout << "Test 19: test resizing by adding a number of values equal to three times the default capacity . . ." << std::endl;
 	CQUEUE test19;
 	size_t size19 = 3*DEFAULT_CAPACITY;
 	value_type elements19[size19];
@@ -518,7 +518,7 @@ void resize_tests(int progress[], size_t elem_size, value_type elements[]) {
 	CQUEUE test20a;
 	CQUEUE test20b;
 
-	size_t size20 = 4*DEFAULT_CAPACITY;							//	More values than original capacity added to test20a
+	size_t size20 = 3*DEFAULT_CAPACITY;							//	More values than original capacity added to test20a
 	for (size_t i = 1; i < size20+1; ++i) {
 		test20a.enqueue(i*10);
 	}
