@@ -102,11 +102,8 @@ template <class T>
 void
 Queue<T>::dequeue (void)
 {
-	if (is_empty( )) {
-		throw Underflow( );
-	}
+	count_ == 0 ? throw Underflow( ) : 	--count_;
 	first_ = next_index(first_);	//	Increments first_, then decrements count_.
-	--count_;
 }
 
 // Precondition: size() > 0.
@@ -116,7 +113,7 @@ template <class T>
 T
 Queue<T>::first (void) const
 {
-	if (is_empty( )) {
+	if (count_ == 0) {
 		throw Underflow( );
 	}
 	return data_[first_];
@@ -127,7 +124,7 @@ template <class T>
 bool
 Queue<T>::is_empty (void) const
 {
-	return count_ == 0 ? true : false;
+	return count_ == 0;
 }
 
 // Postcondition: Returns the current number of elements in the queue.
@@ -145,19 +142,19 @@ template <class T>
 bool
 Queue<T>::operator== (const Queue<T> &rhs) const
 {
-	if (this->count_ != rhs.count_) {			//	Checks that sizes are equal (returns false if not equal).
-		return false;
-	}
-	size_t start1 = this->first_;				//	Creates variables to iterate through both queues from start
-	size_t start2 = rhs.first_;					//		to end (first_ to last_) and returns false if any values are
-	for (size_t i = 0; i < count_; ++i) {		//		not equal.
-		if (this->data_[start1] != rhs.data_[start2]) {
-			return false;
-		}
-		start1 = this->next_index(start1);
-		start2 = rhs.next_index(start2);
-	}
-	return true;
+	if (this->count_ == rhs.count_) {			//	Checks that sizes are equal (returns false if not equal).
+  	size_t start1 = this->first_;				//	Creates variables to iterate through both queues from start
+  	size_t start2 = rhs.first_;					//		to end (first_ to last_) and returns false if any values are
+  	for (size_t i = 0; i < count_; ++i) {		//		not equal.
+  		if (this->data_[start1] != rhs.data_[start2]) {
+  			return false;
+  		}
+  		start1 = this->next_index(start1);
+  		start2 = rhs.next_index(start2);
+  	}
+  	return true;
+  }
+  return false;
 }
 
 // Postcondition: Returns false if the
