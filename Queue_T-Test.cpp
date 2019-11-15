@@ -458,7 +458,7 @@ void assignment_tests(int progress[], size_t elem_size, value_type elements[]) {
 	CQUEUE test17a;
 	CQUEUE test17b;
 
-	enqueue_elements(test17a, elements, elem_size);
+	enqueue_elements(test17a, elements, elem_size);		//	Adds 3 values to the queue
 	test17b.enqueue(40);		//	Differing values (but the same number of them) added to both queues.
 	test17b.enqueue(50);
 	test17b.enqueue(60);
@@ -501,7 +501,7 @@ void resize_tests(int progress[], size_t elem_size, value_type elements[]) {
 	bool pass = true;
 	std::cout << "Test 19: test resizing by adding 30 values (10 is the default capacity) . . ." << std::endl;
 	CQUEUE test19;
-	size_t size19 = 30;
+	size_t size19 = 3*DEFAULT_CAPACITY;
 	value_type elements19[size19];
 	for (size_t i = 1; i < size19+1; ++i) {		//	Values are enqueued to the queue and added to the array
 		test19.enqueue(i*10);					//		in the same order
@@ -518,7 +518,7 @@ void resize_tests(int progress[], size_t elem_size, value_type elements[]) {
 	CQUEUE test20a;
 	CQUEUE test20b;
 
-	size_t size20 = 57;							//	More values than original capacity added to test20a
+	size_t size20 = 4*DEFAULT_CAPACITY;							//	More values than original capacity added to test20a
 	for (size_t i = 1; i < size20+1; ++i) {
 		test20a.enqueue(i*10);
 	}
