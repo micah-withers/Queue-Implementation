@@ -35,7 +35,7 @@ template <class T>
 Queue<T>::Queue (const Queue<T> &rhs)
   :	data_(new T[rhs.capacity_]), capacity_(rhs.capacity_), first_(rhs.first_), last_(rhs.last_), count_(rhs.count_)
 {
-	std::copy(rhs.data_, rhs.data_ + rhs.size( ), data_);	//	Copies values from rhs and sets data member values.
+	std::copy(rhs.data_, rhs.data_ + rhs.count_, data_);	//	Copies values from rhs and sets data member values.
 }
 
 // Destructor
@@ -53,23 +53,22 @@ template <class T>
 Queue<T> &
 Queue<T>::operator= (const Queue<T> &rhs)
 {
-	if (this == &rhs) {						//	Checks for self-assignment.
-		return *this;
-	}
-  if (this->capacity_ < rhs.size( )) {				//	Resizes array if its capacity is less than that of rhs.
-    T *new_data = new T[rhs.size( )];
-    delete [] data_;      //	Has data_ point to new array after releasing the memory of the original array.
-    data_ = new_data;
-    capacity_ = rhs.capacity_;
+	if (this != &rhs) {						//	Checks for self-assignment.
+    if (this->capacity_ < rhs.count_) {				//	Resizes array if its capacity is less than that of rhs.
+      T *new_data = new T[rhs.count_];
+      delete [] data_;      //	Has data_ point to new array after releasing the memory of the original array.
+      data_ = new_data;
+      capacity_ = rhs.capacity_;
+    }
+    size_t start = rhs.first_;
+    for (size_t i = 0; i < rhs.count_; ++i) {	//	Copies values from rhs (first_ to last_) to a data_, starting at index 0.
+      data_[i] = rhs.data_[start];
+      start = rhs.next_index(start);
+    }
+    first_ = 0;
+    last_ = rhs.count_-1;
+    this->count_ = rhs.count_;
   }
-  size_t start = rhs.first_;
-  for (size_t i = 0; i < rhs.size( ); ++i) {	//	Copies values from rhs (first_ to last_) to a data_, starting at index 0.
-    data_[i] = rhs.data_[start];
-    start = rhs.next_index(start);
-  }
-  first_ = 0;
-  last_ = rhs.size( )-1;
-  this->count_ = rhs.count_;
 	return *this;
 }
 
@@ -78,10 +77,10 @@ template <class T>
 void
 Queue<T>::enqueue (const T &new_item)
 {
-	if (size( ) == capacity_) {					//	Resizes array if it is at capacity.
+	if (count_ == capacity_) {					//	Resizes array if it is at capacity.
 		T *new_data = new T[capacity_+1];
 		size_t start = first_;
-		for (size_t i = 0; i < size( ); ++i) {	//	Copies values (first_ to last_) to a new array.
+		for (size_t i = 0; i < count_; ++i) {	//	Copies values (first_ to last_) to a new array.
 			new_data[i] = data_[start];
 			start = next_index(start);
 		}
@@ -89,7 +88,7 @@ Queue<T>::enqueue (const T &new_item)
 		data_ = new_data;		//	Has data_ point to new array and sets first_ and last_ (after releasing the memory of the original array).
     ++capacity_;
     first_ = 0;
-		last_ = size( )-1;
+		last_ = count_-1;
 	}
 	last_ = next_index(last_);	//	Increments last_, inserts the value at last_ index, then increments count.
 	data_[last_] = new_item;
@@ -128,10 +127,7 @@ template <class T>
 bool
 Queue<T>::is_empty (void) const
 {
-	if (size( ) == 0) {
-		return true;
-	}
-	return false;
+	return count_ == 0 ? true : false;
 }
 
 // Postcondition: Returns the current number of elements in the queue.
@@ -149,12 +145,12 @@ template <class T>
 bool
 Queue<T>::operator== (const Queue<T> &rhs) const
 {
-	if (this->size( ) != rhs.size( )) {			//	Checks that sizes are equal (returns false if not equal).
+	if (this->count_ != rhs.count_) {			//	Checks that sizes are equal (returns false if not equal).
 		return false;
 	}
 	size_t start1 = this->first_;				//	Creates variables to iterate through both queues from start
 	size_t start2 = rhs.first_;					//		to end (first_ to last_) and returns false if any values are
-	for (size_t i = 0; i < size( ); ++i) {		//		not equal.
+	for (size_t i = 0; i < count_; ++i) {		//		not equal.
 		if (this->data_[start1] != rhs.data_[start2]) {
 			return false;
 		}
@@ -181,7 +177,7 @@ template <class T>
 size_t
 Queue<T>::next_index (size_t index) const
 {
-	return (++index) % capacity_;
+	return index < capacity_ ? (++index) % capacity_ : throw InvalidIndex( );
 }
 
 #endif /* QUEUE_T_CPP */
