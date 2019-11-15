@@ -37,10 +37,12 @@ public:
   typedef T element_type;
 
   // Initial capacity
-  size_t DEFAULT_CAPACITY = 10;
+  static const size_t DEFAULT_CAPACITY = 10;
 
   // = Exceptions thrown by methods in this class.
   class Underflow {};
+
+  class InvalidIndex {};
 
   // = Initialization, assignment, and termination methods.
   // Constructor.
