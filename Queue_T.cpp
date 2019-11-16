@@ -78,7 +78,7 @@ void
 Queue<T>::enqueue (const T &new_item)
 {
 	if (count_ == capacity_) {					//	Resizes array if it is at capacity.
-		T *new_data = new T[capacity_+1];
+		T *new_data = new T[capacity_*2];
 		size_t start = first_;
 		for (size_t i = 0; i < count_; ++i) {	//	Copies values (first_ to last_) to a new array.
 			new_data[i] = data_[start];
@@ -86,7 +86,7 @@ Queue<T>::enqueue (const T &new_item)
 		}
 		delete [] data_;
 		data_ = new_data;		//	Has data_ point to new array and sets first_ and last_ (after releasing the memory of the original array).
-    ++capacity_;
+    capacity_ *= 2;
     first_ = 0;
 		last_ = count_-1;
 	}
@@ -102,7 +102,11 @@ template <class T>
 void
 Queue<T>::dequeue (void)
 {
+<<<<<<< HEAD
 	count_ == 0 ? throw Underflow( ) : 	--count_;
+=======
+	count_ == 0 ? throw Underflow( ) : --count_;
+>>>>>>> 522239e3110647c82219de1e293c76d6e4976bbb
 	first_ = next_index(first_);	//	Increments first_, then decrements count_.
 }
 
@@ -113,10 +117,14 @@ template <class T>
 T
 Queue<T>::first (void) const
 {
+<<<<<<< HEAD
 	if (count_ == 0) {
 		throw Underflow( );
 	}
 	return data_[first_];
+=======
+	return count_ == 0 ? throw Underflow( ) : data_[first_];
+>>>>>>> 522239e3110647c82219de1e293c76d6e4976bbb
 }
 
 // Postcondition: Returns true if the queue is empty, false otherwise.
