@@ -285,14 +285,14 @@ void equality_tests(int progress[], size_t elem_size, value_type elements[]) {
   // Test 8: 	test equality and inequality operators on empty queues.
 	bool pass = true;
 	std::cout << "Test 8: test equality and inequality operators on empty queues . . ." << std::endl;
-	CQUEUE test8;
-	CQUEUE empty8;		//	Two empty queues are created and checked for equality
+	CQUEUE test8a;
+	CQUEUE test8b;		//	Two empty queues are created and checked for equality
 
-	if (!(empty8 == test8 && test8 == empty8)) {
+	if (!(test8b == test8a && test8a == empty8b)) {
 		std::cout << "The operator == returned false when it should return true." << std::endl;
 		pass = false;
 	}
-	if (empty8 != test8 || test8 != empty8) {
+	if (testb != test8a || test8a != test8b) {
 		std::cout << "The operator == returned true when it should return false." << std::endl;
 		pass = false;
 	}
@@ -540,7 +540,7 @@ main (int argc, char *argv[])
 	int progress[] = {0, 0}; // [0] passes index, [1] fails count
 	size_t elem_size = 7;
 	value_type elements[elem_size];
-	for ( size_t i = 1; i <= elem_size; ++i) {
+	for (size_t i = 1; i <= elem_size; ++i) {
 		elements[i-1] = i*10;
 	}
 
