@@ -288,11 +288,11 @@ void equality_tests(int progress[], size_t elem_size, value_type elements[]) {
 	CQUEUE test8a;
 	CQUEUE test8b;		//	Two empty queues are created and checked for equality
 
-	if (!(test8b == test8a && test8a == empty8b)) {
+	if (!(test8b == test8a && test8a == test8b)) {
 		std::cout << "The operator == returned false when it should return true." << std::endl;
 		pass = false;
 	}
-	if (testb != test8a || test8a != test8b) {
+	if (test8b != test8a || test8a != test8b) {
 		std::cout << "The operator == returned true when it should return false." << std::endl;
 		pass = false;
 	}
@@ -500,11 +500,7 @@ void resize_tests(int progress[], size_t elem_size, value_type elements[]) {
 
 // Test 19: 	test resizing by adding 30 values (10 is the default capacity).
 	bool pass = true;
-<<<<<<< HEAD
 	std::cout << "Test 19: test resizing by adding twice the default number of values . . ." << std::endl;
-=======
-	std::cout << "Test 19: test resizing by adding a number of values equal to three times the default capacity . . ." << std::endl;
->>>>>>> 522239e3110647c82219de1e293c76d6e4976bbb
 	CQUEUE test19;
 	size_t size19 = 2*DEFAULT_CAPACITY;
 	value_type elements19[size19];
@@ -523,11 +519,7 @@ void resize_tests(int progress[], size_t elem_size, value_type elements[]) {
 	CQUEUE test20a;
 	CQUEUE test20b;
 
-<<<<<<< HEAD
 	size_t size20 = 2*DEFAULT_CAPACITY;							//	More values than original capacity added to test20a
-=======
-	size_t size20 = 3*DEFAULT_CAPACITY;							//	More values than original capacity added to test20a
->>>>>>> 522239e3110647c82219de1e293c76d6e4976bbb
 	for (size_t i = 1; i < size20+1; ++i) {
 		test20a.enqueue(i*10);
 	}
