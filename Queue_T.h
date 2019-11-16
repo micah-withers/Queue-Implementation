@@ -37,7 +37,7 @@ public:
   typedef T element_type;
 
   // Initial capacity
-  static const size_t DEFAULT_CAPACITY = 10;
+  static const size_t DEFAULT_CAPACITY = 20;
 
   // = Exceptions thrown by methods in this class.
   class Underflow {};

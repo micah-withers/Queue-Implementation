@@ -17,7 +17,7 @@
 //	This typedef is useful if you want to queue doubles.
 typedef double value_type;
 typedef Queue<value_type> CQUEUE;
-size_t DEFAULT_CAPACITY = 10;
+size_t DEFAULT_CAPACITY = CQUEUE::DEFAULT_CAPACITY;
 
 //Postcondition: values from elements[] are added to the queue (from elements[0] to elements[size]).
 void enqueue_elements (CQUEUE& queue, value_type elements[], size_t size) {	//	Inputs values from elements[] into the queue
@@ -49,6 +49,7 @@ bool check_accuracy (const CQUEUE& queue, value_type elements[], size_t size) {	
 	}
 	catch (CQUEUE::Underflow) {
 		std::cout << "CQUEUE::Underflow exception: cannot dequeue from an empty queue." << std::endl;
+		return false;
 	}
 	return true;
 }
@@ -62,8 +63,8 @@ void pass_fail (bool pass, int test_num, int progress[]) {
 		++progress[0];
 		return;
 	}
-	++progress[1];
 	std::cout << "failed.";
+	++progress[1];
 }
 
   //===================================================
@@ -229,15 +230,15 @@ void underflow_tests(int progress[], size_t elem_size, value_type elements[]) {
   // Test 5: 	checks queues for being empty.
 	bool pass = true;
 	std::cout << "Test 5: checks queues for being empty . . ." << std::endl;
-	CQUEUE empty5;		//	An empty queue is created without adding values and tested for being empty.
-	CQUEUE test5;		//	A queue is created and values are added and then tested for being empty.
-	enqueue_elements(test5, elements, elem_size);
+	CQUEUE test5a;		//	An empty queue is created without adding values and tested for being empty.
+	CQUEUE test5b;		//	A queue is created and values are added and then tested for being empty.
+	enqueue_elements(test5b, elements, elem_size);
 
-	if (!empty5.is_empty( )) {
+	if (!test5a.is_empty( )) {
 		std::cout << "is_empty should return true, but it returned false." << std::endl;
 	}
 
-	if(test5.is_empty( )) {
+	if(test5b.is_empty( )) {
 		std::cout << "is_empty should return false, but it returned true." << std::endl;
 	}
 	pass_fail(pass, progress[0]+progress[1], progress);

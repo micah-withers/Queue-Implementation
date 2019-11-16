@@ -78,7 +78,7 @@ void
 Queue<T>::enqueue (const T &new_item)
 {
 	if (count_ == capacity_) {					//	Resizes array if it is at capacity.
-		T *new_data = new T[capacity_+1];
+		T *new_data = new T[capacity_*2];
 		size_t start = first_;
 		for (size_t i = 0; i < count_; ++i) {	//	Copies values (first_ to last_) to a new array.
 			new_data[i] = data_[start];
@@ -86,7 +86,7 @@ Queue<T>::enqueue (const T &new_item)
 		}
 		delete [] data_;
 		data_ = new_data;		//	Has data_ point to new array and sets first_ and last_ (after releasing the memory of the original array).
-    ++capacity_;
+    capacity_ *= 2;
     first_ = 0;
 		last_ = count_-1;
 	}
