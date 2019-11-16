@@ -49,6 +49,7 @@ bool check_accuracy (const CQUEUE& queue, value_type elements[], size_t size) {	
 	}
 	catch (CQUEUE::Underflow) {
 		std::cout << "CQUEUE::Underflow exception: cannot dequeue from an empty queue." << std::endl;
+		return false;
 	}
 	return true;
 }
@@ -62,8 +63,8 @@ void pass_fail (bool pass, int test_num, int progress[]) {
 		++progress[0];
 		return;
 	}
-	++progress[1];
 	std::cout << "failed.";
+	++progress[1];
 }
 
   //===================================================
@@ -229,15 +230,15 @@ void underflow_tests(int progress[], size_t elem_size, value_type elements[]) {
   // Test 5: 	checks queues for being empty.
 	bool pass = true;
 	std::cout << "Test 5: checks queues for being empty . . ." << std::endl;
-	CQUEUE empty5;		//	An empty queue is created without adding values and tested for being empty.
-	CQUEUE test5;		//	A queue is created and values are added and then tested for being empty.
-	enqueue_elements(test5, elements, elem_size);
+	CQUEUE test5a;		//	An empty queue is created without adding values and tested for being empty.
+	CQUEUE test5b;		//	A queue is created and values are added and then tested for being empty.
+	enqueue_elements(test5b, elements, elem_size);
 
-	if (!empty5.is_empty( )) {
+	if (!test5a.is_empty( )) {
 		std::cout << "is_empty should return true, but it returned false." << std::endl;
 	}
 
-	if(test5.is_empty( )) {
+	if(test5b.is_empty( )) {
 		std::cout << "is_empty should return false, but it returned true." << std::endl;
 	}
 	pass_fail(pass, progress[0]+progress[1], progress);
@@ -284,14 +285,14 @@ void equality_tests(int progress[], size_t elem_size, value_type elements[]) {
   // Test 8: 	test equality and inequality operators on empty queues.
 	bool pass = true;
 	std::cout << "Test 8: test equality and inequality operators on empty queues . . ." << std::endl;
-	CQUEUE test8;
-	CQUEUE empty8;		//	Two empty queues are created and checked for equality
+	CQUEUE test8a;
+	CQUEUE test8b;		//	Two empty queues are created and checked for equality
 
-	if (!(empty8 == test8 && test8 == empty8)) {
+	if (!(test8b == test8a && test8a == empty8b)) {
 		std::cout << "The operator == returned false when it should return true." << std::endl;
 		pass = false;
 	}
-	if (empty8 != test8 || test8 != empty8) {
+	if (testb != test8a || test8a != test8b) {
 		std::cout << "The operator == returned true when it should return false." << std::endl;
 		pass = false;
 	}
@@ -499,7 +500,11 @@ void resize_tests(int progress[], size_t elem_size, value_type elements[]) {
 
 // Test 19: 	test resizing by adding 30 values (10 is the default capacity).
 	bool pass = true;
+<<<<<<< HEAD
 	std::cout << "Test 19: test resizing by adding twice the default number of values . . ." << std::endl;
+=======
+	std::cout << "Test 19: test resizing by adding a number of values equal to three times the default capacity . . ." << std::endl;
+>>>>>>> 522239e3110647c82219de1e293c76d6e4976bbb
 	CQUEUE test19;
 	size_t size19 = 2*DEFAULT_CAPACITY;
 	value_type elements19[size19];
@@ -518,7 +523,11 @@ void resize_tests(int progress[], size_t elem_size, value_type elements[]) {
 	CQUEUE test20a;
 	CQUEUE test20b;
 
+<<<<<<< HEAD
 	size_t size20 = 2*DEFAULT_CAPACITY;							//	More values than original capacity added to test20a
+=======
+	size_t size20 = 3*DEFAULT_CAPACITY;							//	More values than original capacity added to test20a
+>>>>>>> 522239e3110647c82219de1e293c76d6e4976bbb
 	for (size_t i = 1; i < size20+1; ++i) {
 		test20a.enqueue(i*10);
 	}
@@ -539,7 +548,7 @@ main (int argc, char *argv[])
 	int progress[] = {0, 0}; // [0] passes index, [1] fails count
 	size_t elem_size = 7;
 	value_type elements[elem_size];
-	for ( size_t i = 1; i <= elem_size; ++i) {
+	for (size_t i = 1; i <= elem_size; ++i) {
 		elements[i-1] = i*10;
 	}
 
